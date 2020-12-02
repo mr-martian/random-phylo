@@ -10,7 +10,13 @@ library(ape)
 library(phangorn)
 
 tree.ref.full <- read.nexus(args[1])
-data <- read.nexus.data(file = args[2])
+#data <- read.nexus.data(file = args[2])
+tryCatch({
+	data <- read.nexus.data(file = args[2])
+}, error = function(e) {
+	# this still prints 2 lines of text so we'll still need grep
+	stop("Tree contains no live tips.", call.=FALSE)
+})
 data.phydata = phyDat(as.data.frame(data), format="NEXUS", type="USER",
                              levels=c(0,1,2,3,4,5,6,7,8,9,"-"))
 
