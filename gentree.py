@@ -88,7 +88,7 @@ class Tree:
                     self.taxa[t][i] = 1 - self.taxa[t][i]
     def simulate(self, steps, borrowing_rate, change_rate, branch_rate, extinction_rate):
         for i in range(steps):
-            print('iteration %s (%s live tips)' % (i, len(self.tips)))
+            #print('iteration %s (%s live tips)' % (i, len(self.tips)))
             self.step(borrowing_rate, change_rate, branch_rate, extinction_rate)
     def data_loss(self, taxon_rate, character_rate):
         newtips = []
@@ -102,10 +102,22 @@ class Tree:
             for i in range(self.nchar):
                 if random.random() < character_rate:
                     self.taxa[t][i] = '?'
+    def select_tips(self, taxon_count, character_rate):
+        random.shuffle(self.tips)
+        self.extinct += self.tips[taxon_count:]
+        self.tips = self.tips[:taxon_count]
+        self.data_loss(0, character_rate)
 
 if __name__ == '__main__':
-    t = Tree(100)
-    t.simulate(100, 0.05, 0.15, 0.05, 0.01)
-    t.data_loss(0.2, 0.1)
+    import sys
+    taxa_arg = sys.argv[1]
+    change_rate = float(sys.argv[2])
+    t = Tree(200)
+    t.simulate(100, 0, change_rate, 0.05, 0)
+    if '.' in taxa_arg:
+        t.data_loss(float(taxa_arg), 0)
+    else:
+        t.select_tips(int(taxa_arg), 0)
+    print('tips\t%s' % len(t.tips), end='\t')
     t.write_tree('random_tree.nex')
     t.write_matrix('random_matrix.nex')
