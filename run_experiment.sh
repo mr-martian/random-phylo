@@ -7,9 +7,19 @@ do
   time ./run_iteration.sh 1000 $args > "results_$args.tsv"
 done
 
-for args in {0.05,0.10,0.15,0.20}
+#for args in {0.05,0.10,0.15,0.20}
+#do
+#  echo $args
+#  date
+#  time ./run_iteration.sh 10000 $args > "results_$args.tsv"
+#done
+
+for f in results_*
 do
-  echo $args
-  date
-  time ./run_iteration.sh 10000 $args > "results_$args.tsv"
+  ./clean_data.py "$f"
+done
+
+for f in cleanresults_*
+do
+  ./summarize_data.py $f
 done
