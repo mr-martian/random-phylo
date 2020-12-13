@@ -8,7 +8,7 @@ Apply phylogenetic algorithms to a matrix and compare it to a reference tree. Ru
 * [`run_iteration.sh`](run_iteration.sh)
 Helper script. Runs `gentree.py` and `compare_reconstructions.R` a specified number of times. Run as `run_iteration.sh iterations taxa change-rate`. Writes results of each run to stdout in tsv format.
 * [`clean_data.py`](clean_data.py) [`summarize_data.py`](summarize_data.py)
-Helper scripts for processing output of `run_iteration.sh`. Both make assumptions about filenames.
+Helper scripts for processing output of `run_iteration.sh`. Both make assumptions about filenames. Depends on numpy for calculating standard deviations.
 * [`run_experiment.sh`](run_experiment.sh)
 Wrapper script encoding an entire experiment.
 
